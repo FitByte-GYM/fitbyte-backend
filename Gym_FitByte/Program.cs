@@ -1,10 +1,10 @@
-﻿using Gym_FitByte.Data;              // Contexto (AppDbContext)
-using Microsoft.EntityFrameworkCore; // Entity Framework Core
+using Gym_FitByte.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ------------------------------------------------------
-// 🔹 1️⃣ Configurar conexión con MySQL (desde appsettings.json)
+// 🔹 1️⃣ Conexión con MySQL
 // ------------------------------------------------------
 var connectionString = builder.Configuration.GetConnectionString("MySqlConnection");
 
@@ -13,7 +13,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 // ------------------------------------------------------
-// 🔹 2️⃣ Configurar CORS (permite acceso desde PWA y app móvil)
+// 🔹 2️⃣ Configurar CORS
 // ------------------------------------------------------
 builder.Services.AddCors(options =>
 {
@@ -26,7 +26,7 @@ builder.Services.AddCors(options =>
 });
 
 // ------------------------------------------------------
-// 🔹 3️⃣ Agregar controladores y Swagger
+// 🔹 3️⃣ Controladores y Swagger
 // ------------------------------------------------------
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -38,21 +38,17 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // ------------------------------------------------------
-// 🔹 5️⃣ Configurar el pipeline HTTP
+// 🔹 5️⃣ Pipeline HTTP
 // ------------------------------------------------------
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-
-// ✅ Activar CORS antes de los controladores
 app.UseCors("NuevaPolitica");
-
 app.UseAuthorization();
-
 app.MapControllers();
 
 app.Run();
