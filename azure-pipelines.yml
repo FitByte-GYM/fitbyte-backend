@@ -10,7 +10,8 @@ trigger:
       - feature/asistencia
 
 pool:
-  vmImage: 'windows-latest'
+  name: FitByteLocalPool
+
 
 variables:
   buildConfiguration: 'Release'
