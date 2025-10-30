@@ -1,57 +1,61 @@
-# ==========================================
-# FitByte Backend Pipeline (C# - .NET 8)
-# ==========================================
-
+# Ejecutar automáticamente cuando haya cambios o pull requests en develop y main
 trigger:
   branches:
     include:
-      - develop
-      - feature/membresia
-      - feature/asistencia
+      - Develop
+      - main
 
+# También ejecutar al crear o actualizar un Pull Request hacia develop o main
+pr:
+  branches:
+    include:
+      - develop
+      - main
+
+# Usar agente local 
 pool:
   name: FitByteLocalPool
-
 
 variables:
   buildConfiguration: 'Release'
 
 steps:
-  # 1️⃣ Clonar el código desde GitHub
+  # 1. Clonar el código desde el repositorio
   - checkout: self
 
-  # 2️⃣ Instalar SDK de .NET 8
+  # 2. Instalar SDK de .NET 8
   - task: UseDotNet@2
     inputs:
       packageType: 'sdk'
       version: '8.0.x'
     displayName: 'Instalar .NET 8 SDK'
 
-  # 3️⃣ Restaurar dependencias
+  # 3. Restaurar dependencias del proyecto
   - script: dotnet restore Gym_FitByte/Gym_FitByte.csproj
     displayName: 'Restaurar dependencias'
 
-  # 4️⃣ Compilar el proyecto
+  # 4. Compilar el proyecto
   - script: dotnet build Gym_FitByte/Gym_FitByte.csproj --configuration $(buildConfiguration)
     displayName: 'Compilar FitByte Backend'
 
-  # 5️⃣ Ejecutar pruebas (si tienes)
+  # 5. Ejecutar pruebas automáticas (si existen)
   - script: dotnet test --no-build --verbosity normal
     displayName: 'Ejecutar pruebas automáticas'
 
-  # 6️⃣ Publicar artefactos (compilación)
+  # 6. Publicar artefactos compilados
   - script: dotnet publish Gym_FitByte/Gym_FitByte.csproj -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)/publish
     displayName: 'Publicar artefacto compilado'
 
-  # 7️⃣ Guardar artefactos en Azure DevOps
+  # 7. Guardar artefactos en Azure DevOps
   - task: PublishBuildArtifacts@1
     inputs:
       pathToPublish: '$(Build.ArtifactStagingDirectory)/publish'
       artifactName: 'drop'
     displayName: 'Guardar artefactos en DevOps'
 
-  # 8️⃣ Desplegar en Azure App Service (cuando esté configurado)
+  # 8. Desplegar a Azure App Service (solo si el merge fue exitoso a develop o main)
   - task: AzureWebApp@1
+    condition: and(succeeded(), or(eq(variables['Build.SourceBranch'], 'refs/heads/develop'), eq(variables['Build.SourceBranch'], 'refs/heads/main')))
     inputs:
       azureSubscription: 'ConexionAzureFitByte'
       appName: 'fitbyte-backend-api'
