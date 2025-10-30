@@ -10,11 +10,11 @@ namespace Gym_FitByte.Data
         {
         }
 
-        // 🔹 Tablas que se crearán en la base de datos
+        //  Tablas que se crearán en la base de datos
         public DbSet<Membresia> Membresias { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<VentaVisita> VentasVisitas { get; set; }
-
+    
 
 
         // 🔹 Sin configuración extra por ahora
