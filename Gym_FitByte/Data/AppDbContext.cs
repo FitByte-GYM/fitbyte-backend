@@ -5,7 +5,7 @@ namespace Gym_FitByte.Data
 {
     public class AppDbContext : DbContext
     {
-        // 🔹 Constructor: recibe la configuración del contexto (cadena de conexión, etc.)
+        // Constructor: recibe la configuración del contexto (cadena de conexión, etc.)
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         {
         }
@@ -16,7 +16,7 @@ namespace Gym_FitByte.Data
         public DbSet<VentaVisita> VentasVisitas { get; set; }
         public DbSet<Asistencia> Asistencias { get; set; }
 
-        // 🔹 Sin configuración extra por ahora
+        //  Sin configuración extra por ahora
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
