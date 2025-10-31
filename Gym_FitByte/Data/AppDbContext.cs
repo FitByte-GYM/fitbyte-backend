@@ -15,6 +15,7 @@ namespace Gym_FitByte.Data
         public DbSet<Admin> Admins { get; set; }
         public DbSet<VentaVisita> VentasVisitas { get; set; }
        
+
         //  Sin configuración extra por ahora
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
