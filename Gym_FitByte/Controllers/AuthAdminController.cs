@@ -16,7 +16,7 @@ namespace Gym_FitByte.Controllers
             _context = context;
         }
 
-        // POST: api/AuthAdmin/Login
+       
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] AdminLoginDto dto)
         {
@@ -32,7 +32,7 @@ namespace Gym_FitByte.Controllers
             if (admin.Contrasena != dto.Contrasena)
                 return Unauthorized("Contraseña incorrecta.");
 
-            // Si todo es correcto:
+        
             return Ok(new
             {
                 message = "Inicio de sesión exitoso",

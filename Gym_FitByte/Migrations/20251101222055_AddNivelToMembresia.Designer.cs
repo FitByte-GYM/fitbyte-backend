@@ -3,6 +3,7 @@ using System;
 using Gym_FitByte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_FitByte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251101222055_AddNivelToMembresia")]
+    partial class AddNivelToMembresia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -75,13 +78,11 @@ namespace Gym_FitByte.Migrations
 
                     b.Property<string>("CodigoCliente")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Correo")
                         .IsRequired()
-                        .HasMaxLength(120)
-                        .HasColumnType("varchar(120)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Direccion")
                         .IsRequired()
@@ -117,8 +118,7 @@ namespace Gym_FitByte.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Rutina")
                         .IsRequired()
@@ -134,92 +134,7 @@ namespace Gym_FitByte.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CodigoCliente")
-                        .IsUnique();
-
                     b.ToTable("Membresias");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.MembresiaHistorial", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("CodigoCliente")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("varchar(20)");
-
-                    b.Property<DateTime>("FechaPago")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FormaPago")
-                        .IsRequired()
-                        .HasMaxLength(40)
-                        .HasColumnType("varchar(40)");
-
-                    b.Property<int?>("MembresiaId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("MontoPagado")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<DateTime>("PeriodoFin")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("PeriodoInicio")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MembresiaId");
-
-                    b.ToTable("MembresiasHistorial");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.Progreso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Brazo")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Cintura")
-                        .HasColumnType("double");
-
-                    b.Property<string>("CodigoCliente")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FotoUrl")
-                        .HasColumnType("longtext");
-
-                    b.Property<double>("Hombros")
-                        .HasColumnType("double");
-
-                    b.Property<int?>("MembresiaId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Pecho")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Peso")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Pierna")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MembresiaId");
-
-                    b.ToTable("Progresos");
                 });
 
             modelBuilder.Entity("Gym_FitByte.Models.VentaVisita", b =>
@@ -245,30 +160,6 @@ namespace Gym_FitByte.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("VentasVisitas");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.MembresiaHistorial", b =>
-                {
-                    b.HasOne("Gym_FitByte.Models.Membresia", "Membresia")
-                        .WithMany("Historial")
-                        .HasForeignKey("MembresiaId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Membresia");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.Progreso", b =>
-                {
-                    b.HasOne("Gym_FitByte.Models.Membresia", "Membresia")
-                        .WithMany()
-                        .HasForeignKey("MembresiaId");
-
-                    b.Navigation("Membresia");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.Membresia", b =>
-                {
-                    b.Navigation("Historial");
                 });
 #pragma warning restore 612, 618
         }

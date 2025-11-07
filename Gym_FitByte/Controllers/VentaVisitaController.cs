@@ -16,7 +16,7 @@ namespace Gym_FitByte.Controllers
             _context = context;
         }
 
-        // 🔹 Registrar una venta de visita
+
         [HttpPost("registrar")]
         public async Task<IActionResult> RegistrarVenta([FromBody] VentaVisita visita)
         {
@@ -39,7 +39,7 @@ namespace Gym_FitByte.Controllers
             });
         }
 
-        // 🔹 Consultar todas las ventas
+      
         [HttpGet]
         public async Task<IActionResult> ObtenerVentas()
         {
@@ -50,7 +50,7 @@ namespace Gym_FitByte.Controllers
             return Ok(ventas);
         }
 
-        // 🔹 Consultar una venta por ID
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> ObtenerVentaPorId(int id)
         {
@@ -61,7 +61,7 @@ namespace Gym_FitByte.Controllers
             return Ok(venta);
         }
 
-        // 🔹 Ventas de hoy
+        
         [HttpGet("hoy")]
         public async Task<IActionResult> VentasDeHoy()
         {
@@ -77,7 +77,7 @@ namespace Gym_FitByte.Controllers
             });
         }
 
-        // 🔹 Ventas de ayer
+        
         [HttpGet("ayer")]
         public async Task<IActionResult> VentasDeAyer()
         {
@@ -93,13 +93,13 @@ namespace Gym_FitByte.Controllers
             });
         }
 
-        // 🔹 Ventas de esta semana
+       
         [HttpGet("semana")]
         public async Task<IActionResult> VentasDeSemana()
         {
             var hoy = DateTime.Today;
-            var primerDia = hoy.AddDays(-(int)hoy.DayOfWeek + 1); // Lunes
-            var ultimoDia = primerDia.AddDays(6); // Domingo
+            var primerDia = hoy.AddDays(-(int)hoy.DayOfWeek + 1); 
+            var ultimoDia = primerDia.AddDays(6); 
 
             var ventas = await _context.VentasVisitas
                 .Where(v => v.FechaVenta.Date >= primerDia && v.FechaVenta.Date <= ultimoDia)
@@ -112,7 +112,7 @@ namespace Gym_FitByte.Controllers
             });
         }
 
-        // 🔹 Ventas de este mes
+       
         [HttpGet("mes")]
         public async Task<IActionResult> VentasDeMes()
         {

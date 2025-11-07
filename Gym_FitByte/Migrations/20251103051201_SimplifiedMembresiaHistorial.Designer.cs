@@ -3,6 +3,7 @@ using System;
 using Gym_FitByte.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Gym_FitByte.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251103051201_SimplifiedMembresiaHistorial")]
+    partial class SimplifiedMembresiaHistorial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -178,50 +181,6 @@ namespace Gym_FitByte.Migrations
                     b.ToTable("MembresiasHistorial");
                 });
 
-            modelBuilder.Entity("Gym_FitByte.Models.Progreso", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<double>("Brazo")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Cintura")
-                        .HasColumnType("double");
-
-                    b.Property<string>("CodigoCliente")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<string>("FotoUrl")
-                        .HasColumnType("longtext");
-
-                    b.Property<double>("Hombros")
-                        .HasColumnType("double");
-
-                    b.Property<int?>("MembresiaId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("Pecho")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Peso")
-                        .HasColumnType("double");
-
-                    b.Property<double>("Pierna")
-                        .HasColumnType("double");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MembresiaId");
-
-                    b.ToTable("Progresos");
-                });
-
             modelBuilder.Entity("Gym_FitByte.Models.VentaVisita", b =>
                 {
                     b.Property<int>("Id")
@@ -253,15 +212,6 @@ namespace Gym_FitByte.Migrations
                         .WithMany("Historial")
                         .HasForeignKey("MembresiaId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Membresia");
-                });
-
-            modelBuilder.Entity("Gym_FitByte.Models.Progreso", b =>
-                {
-                    b.HasOne("Gym_FitByte.Models.Membresia", "Membresia")
-                        .WithMany()
-                        .HasForeignKey("MembresiaId");
 
                     b.Navigation("Membresia");
                 });
